@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %} Homepage {% endblock %}
+
+{% block content %}
+<h1>you are on the homepage, {{name}}</h1>
+
+{% if display %}
+This is being displayed
+{% else %}
+this is not being displayed
+{% endif %}
+
+<ul>
+    {% for x in mylist %}
+    <li>
+        {{ x }}
+    </li>
+    {% endfor %}
+</ul>
+
+<ul>
+    {% for x in listofdicts %}
+    <li>
+        {{ x.name }}
+    </li>
+    {% endfor %}
+</ul>
+
+<img src="{{ url_for('static', filename='images/si-youth-tennis_760x420.jpg')}}">
+
+{% endblock %}
