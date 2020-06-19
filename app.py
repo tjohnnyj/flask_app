@@ -1,10 +1,29 @@
 from flask import Flask, jsonify, request, url_for, redirect, session, render_template
 import pprint as pp
 import random
+from flask_assets import  Environment, Bundle
+
 
 app = Flask(__name__)
 app.config['DEBUG'] = True
 app.config['SECRET_KEY'] = 'Thisisasecret!'
+
+# Included in order to compile the SASS styles
+LESS_BIN = '/usr/bin/less'
+ASSETS_DEBUG = True
+ASSETS_AUTO_BUILD = True
+
+assets = Environment(app)
+
+style_bundle = Bundle(
+    'sass/*.scss',
+    filters='pyscss',
+    output='css/style.css',
+    extra={'rel': 'stylesheet/css'}
+)
+
+assets.register('main_styles', style_bundle)  # Register style bundle
+style_bundle.build()  # Build LESS styles
 
 
 @app.route('/')
@@ -55,6 +74,10 @@ def theform():
 
     #return 'Hello {}. You are from {}. You have submitted for form successfully'.format(name, location)
     return redirect((url_for('home',name=name)))
+
+@app.route('/material', methods=['GET','POST'])
+def material():
+  return render_template('material_tests.html')
 
 if __name__ == '__main__':
   app.run()
